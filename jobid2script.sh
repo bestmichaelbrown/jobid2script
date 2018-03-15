@@ -1,12 +1,11 @@
 #!/bin/bash
 
-# Make sure to use jq version 1.5 or later
-jq="/usr/bin/jq"
+jq="/usr/bin/jq" # Path to jq version 1.5 or later, may be different for you
 
 # Take a DNAnexus job ID and turn it into a shell script
 
-jobid="job-FBYzP18067KPZ3vX7jybVpg1"
-outfile="test_job2script.sh"
+jobid="YOUR_JOB_ID_HERE"
+outfile="YOUR_OUTPUT_FILE.sh"
 
 # Save the job information as json data
 js=$( dx describe $jobid --json )
