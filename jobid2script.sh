@@ -48,13 +48,13 @@ echo "#!/bin/bash" > $outfile
 echo "" >> $outfile
 echo "# dx run script created for job: $jobid" >> $outfile
 echo "" >> $outfile
-echo "dx run $project:$applet --folder=$folder --instance-type=$instanceType --yes \\" >> $outfile
+echo "dx run $project:/$applet --folder=\"$folder\" --instance-type=\"$instanceType\" --yes \\" >> $outfile
 last_index=$(( ${#keys[@]} - 1 ))
 for i in "${!keys[@]}" ; do
     if [[ "$i" != "$last_index" ]] ; then
-        echo -e "\t-i${keys[$i]} ${values[$i]} \\" >> $outfile
+        echo -e "\t-i${keys[$i]}=\"${values[$i]}\" \\" >> $outfile
     else 
-        echo -e "\t-i${keys[$i]} ${values[$i]}" >> $outfile
+        echo -e "\t-i${keys[$i]}=\"${values[$i]}\"" >> $outfile
     fi
 done
 
