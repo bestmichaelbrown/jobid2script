@@ -4,8 +4,8 @@ jq="/usr/bin/jq" # Path to jq version 1.5 or later, may be different for you
 
 # Take a DNAnexus job ID and turn it into a shell script
 
-jobid="YOUR_JOB_ID_HERE"
-outfile="YOUR_OUTPUT_FILE.sh"
+jobid=$1 # "JOB_ID"
+outfile=${2:-$jobid.job2script.sh} # "run_athero_cac_genesis_null.sh"
 
 # Save the job information as json data
 js=$( dx describe $jobid --json )
@@ -18,7 +18,7 @@ applet=$( dx describe $applet_id --json | $jq -r ' .name ' )
 folder=$( echo $js | $jq -r '.folder' )
 instanceType=$( echo $js | $jq -r '.instanceType' )
 keys=( $( echo $js | $jq -r '.["runInput"] | keys_unsorted[]' ) )
-values=( $( echo $js | $jq -r '.runInput | .[] | if type == "object" then .["$dnanexus_link"].project + ":" + .["$dnanexus_link"].id else . end' ) )
+values=( $( echo $js | $jq -r '.runInput | .[] | if type == "string" then . elif (.["$dnanexus_link"] | length) > 2 then .[] else .["$dnanexus_link"].project + ":" + .["$dnanexus_link"].id end' ) )
 
 # Loop through values, find file ids, and convert them to be human readable
 for i in "${!values[@]}" ; do 
